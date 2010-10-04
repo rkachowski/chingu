@@ -9,7 +9,7 @@ class Game < Chingu::Window
     super(640,480,false)
     self.input = { :escape => :exit }
     self.caption = "Tile maps fps:#{$window.fps}"
-    push_game_state(TestState.new())
+    push_game_state(Test2State.new())
     
   end
   
@@ -39,7 +39,7 @@ end
 class Test2State < GameState
   def initialize
     super
-    @map = TmxTileMap["test_multiple.tmx"]
+    @map = TmxTileMap["test_3_layers.tmx"]
   end
   
   def draw

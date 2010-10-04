@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="30" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tileset1" tilewidth="16" tileheight="16">
+  <image source="testinnng-3.png"/>
+ </tileset>
+ <layer name="layer1" width="40" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3STQoAIQiGYa/RSbt+m1aSJaH9wLt4YJiG8TMtIlKQpna3c1jZRs+7PUb2OvqPfuepqc9P51vtQHV+l5lvdi8Zs/XUt2bt6TM6o1V3lflEvuideJHewR8yAwAAAIjXAIqWtovAEgAA
+  </data>
+ </layer>
+ <layer name="layer2" width="40" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3VYQqAIAyGYe9/j92zvzI2N3Na4PtAEGbuSwe1BgAAgNvJ1wECN+Wr/lZRV8V61UTdW1mzdXfnG82J5lnPK84m+/5svn7d1X3N9KGuF9W3+mY3K5dX+20Prxqdozd+av88UU/8/R+AMx6pkVNwwBIAAA==
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="40" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3RMQoAIAwEQf9f5M1iZ2GjKBwyA0fahbQGALxQiyVLb0zu03YuvW/QeIe+PTXdxP+mdgH/6lvH+z7AEgAA
+  </data>
+ </layer>
+</map>

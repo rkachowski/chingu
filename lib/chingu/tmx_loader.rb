@@ -86,13 +86,16 @@ class TmxTileMap
   #
   # extract tile layout info from a crack'd tmx hash
   def self.get_layer_info tmx_info
-    result = {}
+    result = []
     
-    result[:name] = tmx_info["map"]["layer"]["name"]
-    result[:data] = tmx_info["map"]["layer"]["data"]
-    
-    #only considering one layer
-    [result]
+    tmx_info["map"]["layer"].each do |l|
+      layer_info = {}
+      layer_info[:name] = l["name"]
+      layer_info[:data] = l["data"]
+      result<< layer_info
+    end
+
+    result
   end
   
   #
