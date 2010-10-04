@@ -7,7 +7,8 @@ require 'nokogiri'
 
 module Chingu
 
-class TmxTileMap < Asset
+class TmxTileMap# < Asset
+  include Chingu::NamedResource
   
   TmxTileMap.autoload_dirs = [ File.join("media","maps"),"maps",ROOT,File.join("..","media","maps")]
   

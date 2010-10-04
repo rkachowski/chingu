@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="testinnng-3" tilewidth="16" tileheight="16">
+  <image source="testinnng-3.png"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="50" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3T0QnCMBSF4eAU1SncrI9ZxBV86jzuIwEDF7Gtpm38D5wfLslDSfpRmlNKZ/HJr/UqPtVzSboNyQ5SdrCyg5UdrFodt7e19Aj7+8b3+rU9HTElR53aFPZKjriWpk8Pduooh8r3oGUHKztY2cHKDlZ2sLKDlR2s7GBlBys7WNnByg5WPR3jgWf3cIxhXZvW1hwtd7e+z1ZftcydTegb4xD2J+GJDuXiP6I++c/372XIi19Mo2J4AuVMbAoQJwAA
+  </data>
+ </layer>
+</map>

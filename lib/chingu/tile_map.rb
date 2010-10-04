@@ -212,8 +212,7 @@ class TileMap < BasicGameObject
       @tids = options[:tids]
       sets = []
       options[:tilesets].each do |ts|
-        image = ts[:image]#.split('/').last
-        #name = ts[:name] || "nonameset"
+        image = ts[:image]
         ftid = ts[:firstid] || 1
         sets <<{:image =>image,:name=>name,:ftid=>ftid, :spacing =>ts[:spacing]}
       end
