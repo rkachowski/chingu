@@ -1,13 +1,13 @@
 require 'stringio'
 require 'zlib'
-require 'nokogiri'
+require 'crack/xml'
 
 # load a tmx file (produced by Tiled map editor mapeditor.org )
 # return a TileMap and TileSets that match tmx info
 
 module Chingu
 
-class TmxTileMap# < Asset
+class TmxTileMap
   include Chingu::NamedResource
   
   TmxTileMap.autoload_dirs = [ File.join("media","maps"),"maps",ROOT,File.join("..","media","maps")]
@@ -19,15 +19,23 @@ class TmxTileMap# < Asset
     
   def self.load file
     file = File.new file
-    doc = Nokogiri::XML file
+
+    file_info = file.readlines.join.strip
+
+    tmx_info = Crack::XML.parse(file_info)
     
-    #extract info from tmx file
-    tmx_info = parse_tmx doc
     #create a map along tmx definitions
-    map = create_map tmx_info[:global]
+    map = create_map get_global_map_info(tmx_info)
+=begin
+    while(!@end)
+      eval(gets)
+    end    
+=end    
     #fill map with tile data
-    fill_map map, tmx_info[:layers], tmx_info[:tilesets]
+    fill_map(map, get_layer_info(tmx_info), get_tileset_info(tmx_info))
+    
     map.name = @name
+    
     map
   end
 
@@ -45,6 +53,46 @@ class TmxTileMap# < Asset
   #take info (name,dimensions etc) and return a TileMap that meets this
   def self.create_map info
     TileMap.new(:size=>[info[:width],info[:height]],:tilesize=>[info[:tile_width],info[:tile_height]])
+  end
+  
+  #
+  # get global map info (height + width etc) from a crack'd tmx hash
+  def self.get_global_map_info tmx_info
+    result = {}
+    
+    result[:tile_width] = tmx_info["map"]["tilewidth"].to_i
+    result[:tile_height] = tmx_info["map"]["tileheight"].to_i
+    
+    #taking width from first layer 
+    result[:width] = tmx_info["map"]["width"].to_i
+    result[:height] = tmx_info["map"]["height"].to_i
+    
+    result
+  end
+  
+  #
+  # extract tileset information from a crack'd tmx hash
+  def self.get_tileset_info tmx_info
+    result = {}
+    
+    result[:name] = tmx_info["map"]["tileset"]["name"]
+    result[:image] = tmx_info["map"]["tileset"]["image"]["source"]
+    result[:firstid] = tmx_info["map"]["tileset"]["firstgid"].to_i
+    
+    #only considering one tileset
+    [result]
+  end
+  
+  #
+  # extract tile layout info from a crack'd tmx hash
+  def self.get_layer_info tmx_info
+    result = {}
+    
+    result[:name] = tmx_info["map"]["layer"]["name"]
+    result[:data] = tmx_info["map"]["layer"]["data"]
+    
+    #only considering one layer
+    [result]
   end
   
   #
