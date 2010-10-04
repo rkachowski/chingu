@@ -18,11 +18,13 @@ class Game < Chingu::Window
   def push_next_map
     case @current_state
     when 0 then
-      switch_game_state(Test2State.new)
+      switch_game_state(Test4State.new)
     when 1 then
       switch_game_state(Test3State.new)
     when 2 then
       switch_game_state(TestState.new)
+    when 3 then
+      switch_game_state(Test2State.new)
       @current_state = -1
     end
     
@@ -96,6 +98,24 @@ class Test3State < MapState
   def update
     super
     $window.caption = "single layer, multiple tilesets fps = #{$window.fps}"
+  end
+end
+
+class Test4State < MapState
+  def initialize
+    super
+    @map = TileMap["multiple_layer_multiple_tileset.tmx"]
+    $window.caption = "2 layers 2 tilesets"
+  end
+  
+  def draw
+    super
+   @map.draw
+  end    
+  
+  def update
+    super
+    $window.caption = "2 layers 2 tilesets fps = #{$window.fps}"
   end
 end
 

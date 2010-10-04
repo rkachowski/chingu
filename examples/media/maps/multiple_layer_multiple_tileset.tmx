@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="30" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="arachne" tilewidth="16" tileheight="16">
+  <image source="bugtilesbrown.png"/>
+ </tileset>
+ <tileset firstgid="101" name="kren" tilewidth="16" tileheight="16">
+  <image source="testinnng-3.png" trans="ffffff"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="40" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OMQoAIAiFYef27hDe/4A1FLxEmxr/DyQhs2cGAAAAAACAqH3cNXb1Vb7P02d3OhPLw9tqTkv3e7H/5HC7c73+yGar7HGX5shyaT8B8pg9U8ASAAA=
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="40" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3UwQmAMAyF4e6hW+h46lEHUI86hU7iscuYi1AKCak1rZT88EBKhQ8PGsOrgtXMu2/qYL23IeB99akvJvXFlcJnkWdOUj7MhPmwc0mfdZ4ph0XOJX2YJfReTh/13VL4KAPHlsLnWvxx0v9fXKX7Glgr4HqK9Un3d98MW7ytWUWaVm4jbMqNINpge24E0QE7mXevgGnfdgPG6uo3wBIAAA==
+  </data>
+ </layer>
+</map>
