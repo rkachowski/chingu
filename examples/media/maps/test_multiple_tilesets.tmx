@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="30" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="arachne" tilewidth="16" tileheight="16">
+  <image source="bugtilesbrown.png"/>
+ </tileset>
+ <tileset firstgid="101" name="kren" tilewidth="16" tileheight="16">
+  <image source="testinnng-3.png"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="40" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3UQQrCMBAF0KDWRbaCN/FKnqIBT911u7BQZMxM5v/RKll86CIhLz9DS0qp9PT8UQ6OPeOSiXT+sORMvhPDNzxTQJ/UL+rb2tYwO0R8ko1tZM7fL/ksxrwDX814+bLP0qFmjPZp6b44W4vvKmSPvu33zenKRpvVJ3WH9Ge1aT6pM6/L8i9G3xdxtXTG8NXOy5V1rTM7OvZoPm9XSH+awTtfUb5XF7MzVn9rIlyI753rBDiOQe97D84D9E0fSuQMRWQG3tRPNcASAAA=
+  </data>
+ </layer>
+</map>

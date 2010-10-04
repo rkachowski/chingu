@@ -73,14 +73,25 @@ class TmxTileMap
   #
   # extract tileset information from a crack'd tmx hash
   def self.get_tileset_info tmx_info
-    result = {}
+    result = []
     
-    result[:name] = tmx_info["map"]["tileset"]["name"]
-    result[:image] = tmx_info["map"]["tileset"]["image"]["source"]
-    result[:firstid] = tmx_info["map"]["tileset"]["firstgid"].to_i
+    if tmx_info["map"]["tileset"].is_a? Array
+      tmx_info["map"]["tileset"].each{ |t| result << get_tileset(t)}
+    else
+      result << get_tileset(tmx_info["map"]["tileset"])
+    end
+  
+    result
+  end
+  
+  def self.get_tileset tileset_info
+    tileset = {}
     
-    #only considering one tileset
-    [result]
+    tileset[:name] = tileset_info["name"]
+    tileset[:image] = tileset_info["image"]["source"]
+    tileset[:firstid] = tileset_info["firstgid"].to_i
+    
+    tileset
   end
   
   #
@@ -88,14 +99,21 @@ class TmxTileMap
   def self.get_layer_info tmx_info
     result = []
     
-    tmx_info["map"]["layer"].each do |l|
-      layer_info = {}
-      layer_info[:name] = l["name"]
-      layer_info[:data] = l["data"]
-      result<< layer_info
+    #if there are multiple layers
+    if tmx_info["map"]["layer"].is_a? Array
+      tmx_info["map"]["layer"].each { |l| result<< get_layer(l) }
+    else
+      result<< get_layer(tmx_info["map"]["layer"])
     end
-
+    
     result
+  end
+  
+  def self.get_layer layer
+    layer_info = {}
+      layer_info[:name] = layer["name"]
+      layer_info[:data] = layer["data"]
+      layer_info
   end
   
   #
