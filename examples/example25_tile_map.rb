@@ -7,67 +7,96 @@ include Chingu
 class Game < Chingu::Window
   def initialize
     super(640,480,false)
-    self.input = { :escape => :exit }
+    self.input = { :escape => :exit,:space=>:push_next_map }
     self.caption = "Tile maps fps:#{$window.fps}"
-    push_game_state(Test3State.new())
+    transitional_game_state(Chingu::GameStates::FadeTo, {:speed => 5, :debug => true})
+    @current_state = 0
     
+    push_next_map  
+  end
+  
+  def push_next_map
+    case @current_state
+    when 0 then
+      switch_game_state(Test2State.new)
+    when 1 then
+      switch_game_state(Test3State.new)
+    when 2 then
+      switch_game_state(TestState.new)
+      @current_state = -1
+    end
+    
+    @current_state +=1
+  end    
+  
+  def update
+    super
+  end
+end
+
+class MapState < GameState
+  def initialize
+    super 
+    self.input = {:holding_left=>lambda{@map.move [-5,0]},:holding_right=>lambda{@map.move [5,0]},
+      :holding_down=>lambda{@map.move [0,5]},:holding_up=>lambda{@map.move [0,-5]}}
+  end
+    
+end
+  
+
+class TestState < MapState
+  def initialize
+    super
+    @map = TileMap["test_one.tmx"]
+    $window.caption = "single layer, single tileset"
+  end
+  
+  def draw
+    super
+   @map.draw
   end
   
   def update
     super
-    self.caption = "Tile maps fps:#{$window.fps}"
-  end
+    $window.caption = "single layer, single tileset fps = #{$window.fps}"
+  end  
+  
 end
 
-class TestState < GameState
+class Test2State < MapState
   def initialize
     super
-    @map = TmxTileMap["test_one.tmx"]
+    @map = TileMap["test_3_layers.tmx"]
+    $window.caption = "3 tile layers"
   end
   
   def draw
     super
    @map.draw
-  end
-    
-    def update
+  end    
+  
+  def update
     super
-    end
-    
+    $window.caption = "3 tile layers fps = #{$window.fps}"
+  end
 end
 
-class Test2State < GameState
+class Test3State < MapState
   def initialize
     super
-    @map = TmxTileMap["test_3_layers.tmx"]
+    @map = TileMap["test_multiple_tilesets.tmx"]
+    $window.caption = "single layer, multiple tilesets"
   end
   
   def draw
     super
    @map.draw
-  end
-    
-    def update
-    super
-    end
-    
-end
-
-class Test3State < GameState
-  def initialize
-    super
-    @map = TmxTileMap["test_multiple_tilesets.tmx"]
-  end
+  end    
   
-  def draw
+  def update
     super
-   @map.draw
+    $window.caption = "single layer, multiple tilesets fps = #{$window.fps}"
   end
-    
-    def update
-    super
-    end
-    
 end
 
 Game.new.show
