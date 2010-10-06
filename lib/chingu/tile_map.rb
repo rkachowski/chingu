@@ -65,7 +65,7 @@ module Chingu
     
     #
     #create a tileset and assign each tile a face from it
-    def set_tiles tile_array, tileset_info
+    def set_tiles(tile_array, tileset_info)
       fail("wrong sized tile info given to map") unless tile_array.size == no_of_tiles
       add_tileset tileset_info
       t =0
@@ -230,7 +230,7 @@ module Chingu
       #
       #given a tile number, return an image that maps to it
       def get_tile tile_no
-        @tiles[tile_no] ? @tiles[tile_no] : fail("tile #{tile_no} does not exist in map #{@name}")
+        @tiles[tile_no] ? @tiles[tile_no] : fail("tile #{tile_no} does not exist in map")
       end
     end
     
@@ -257,7 +257,7 @@ module Chingu
         @image = nil
       end
       
-      def draw x, y
+      def draw(x, y)
         @tileset.get_tile(type).draw(x,y,5) if @image
         $window.font.draw(@type,x,y,100) if @@debug
       end    
