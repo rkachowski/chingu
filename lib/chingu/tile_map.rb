@@ -21,26 +21,20 @@ module Chingu
       end    
     end
 
-    def initialize options
+    def initialize(options={})
       fail("size not specified") unless options[:size] and options[:tilesize]
 
-      @size = options[:size]
-      @width = @size[0]
-      @height = @size[1]
-
+      @width = options[:size][0]
+      @height = options[:size][1]
           
       @tile_width = options[:tilesize][0]
       @tile_height = options[:tilesize][1]
 
       @map_height = @tile_height * @height
       @map_width = @tile_width * @width
-
-      puts "width #{@map_width} height #{@map_height}"
       
       @x = @y =@offset_x = @offset_y = 0
       
-      @name = "noname"
-      #initialize map
       @map = Array.new(@width){Array.new(@height){Tile.new({})}}
       
       get_drawable_grid
@@ -52,23 +46,22 @@ module Chingu
       @width*@height
     end
     
-    def add_tileset options
+    def add_tileset(options={})
       fail("tileset cannot added before tile id's are defined") unless @tids
       @tileset = TileSet.new(:tids=>@tids,:tilesets=>options)
     end
     
     #
-    #given a point in map coords, return a value that says whether this space is free or not
-    def solid_point? position
-      c_x = (position[0].to_f/@tile_width).floor
-      c_y = (position[1].to_f/@tile_height).floor
-      cell = [c_x,c_y]
-      if cell[0] <0 or cell[0] >= @width or cell[1] <0 or cell[1]>=@height
-        return false
-      else
-        @map[cell[0]][cell[1]].solid
-      end
-    end
+    # Return the tile at position [row, column] within the tile map
+    # i.e. get_tile(2,2) refers to the tile that is in the second row and
+    # second column of the map. Returns false if the values passed are out of bounds
+    #
+    def get_tile(row,column)
+      return false if row < 0 or column < 0
+      return false if row >= @width or column >= @height
+      
+      @map[row,column]
+    end      
     
     #
     #create a tileset and assign each tile a face from it
@@ -106,7 +99,7 @@ module Chingu
     
     #
     # moves the entire map d =  [x,y] pixels
-    def move d
+    def move(d=[])
       fail("did not recieve an array of size 2") unless d.is_a? Array and d.size == 2
 
       @x += d[0]
@@ -128,52 +121,36 @@ module Chingu
     end
 
     #
-    # given coordinates, return the cell that this maps to
-    def get_map_cell position
+    # given screen coordinates, return the row and column that this would map to. Considers
+    # the position of the tile map within the world
+    #
+    def get_map_cell(position=[])
       fail("argument is not an array of size 2") unless position.is_a? Array and position.size == 2
         
-      c_x,c_y = position[0]-@x,position[1]-@y
-      c_x = (c_x.to_f/@tile_width).floor
-      c_y = (c_y.to_f/@tile_height).floor
-      [c_x,c_y]
+      row = position[0]-@x
+      column = position[1]-@y
+      
+      row = (row.to_f/@tile_width).floor
+      column = (column.to_f/@tile_height).floor
+      
+      [row,column]
     end
     
     #
-    #given a set of coordinates, return whether it is within the bounds of the tile map
-    def within_map? position
-      c = get_map_cell position
-      return true if c
-      false
-    end
-      
+    #given a set of screen coordinates, return whether it is within the bounds of the tile map
     #
-    # returns the tile at this position, used for collision response
-    def get_tile_at position
-      #translate screen coords to map coords
-      c = get_map_cell position
-      #return map cell
-      @map[c[0]][c[1]]
-    end
+    def within_map?(position=[])
+      c = get_map_cell position            
+      if c[0] >=0 and c[0] < @width and c[1] >=0 and c[1] < @height then 
+        return true
+      end
+      return false
+    end     
 
     #
-    # given a position, return a Rect that corresponds to the bounds of the in
-    # this position or return false if none exists
-    def get_tile_bounds position
-      #find the cell
-      p = get_map_cell(position)
-      return false unless p
-      
-      p[0] *= @tile_width
-      p[1] *= @tile_height
-
-      p[0] += @x
-      p[1] += @y
-
-      Rect.new(p[0],p[1],@tile_width,@tile_height)
-    end
-    
-
-    def to_map_coords position
+    # Converts a set of screen coordinates to map coordinates
+    #
+    def to_map_coords(position=[])
       [position[0]-@x,position[1]-@y]
     end  
     
