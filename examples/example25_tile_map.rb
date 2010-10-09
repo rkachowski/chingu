@@ -123,12 +123,13 @@ class Test4State < MapState
 end
 
 class TestChar < GameObject
-  traits :collision_detection, :bounding_box, :tilemap_collision
+  has_trait :bounding_box, :debug =>true
+  traits :collision_detection, :tilemap_collision
   attr_accessor :tile_map
   
   def initialize options={}
     super
-    @image = Image["16x16.png"]
+    @image = Image["spaceship.png"]
     
   end
 end

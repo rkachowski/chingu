@@ -18,6 +18,7 @@ module Chingu
       if self.tile_map
         vertical_map_collision
         horizontal_map_collision 
+        puts "l = #{@l_collision} r = #{@r_collision} t = #{@t_collision} b = #{@b_collision}"
       end
     end
       
@@ -63,8 +64,8 @@ module Chingu
     # checking for collisions on the left and right sides of an aabb
     #
     def collision_hor(x,y,height)
-      no_of_checks = ( height / self.tile_map.tile_height).ceil       
-      no_of_checks +=1 if (y % self.tile_map.tile_height) != 0
+      no_of_checks = ((height + y % self.tile_map.tile_height)/ self.tile_map.tile_height).ceil #( height / self.tile_map.tile_height).ceil       
+      #no_of_checks +=1 if (y % self.tile_map.tile_height) != 0
       
       first_tile_row = (y / self.tile_map.tile_height).floor 
       first_tile_column = (x / self.tile_map.tile_width).floor
