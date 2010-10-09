@@ -58,7 +58,7 @@ module Chingu
     #
     def get_tile(column,row)
       return false if row < 0 or column < 0
-      return false if row >= @width or column >= @height
+      return false if row >= @height or column >= @width
       
       @map[column][row]
     end      
