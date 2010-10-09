@@ -38,9 +38,7 @@ end
 
 class MapState < GameState
   def initialize
-    super 
-    self.input = {:holding_left=>lambda{@map.move [-5,0]},:holding_right=>lambda{@map.move [5,0]},
-      :holding_down=>lambda{@map.move [0,5]},:holding_up=>lambda{@map.move [0,-5]}}
+    super     
   end
     
 end
@@ -106,6 +104,11 @@ class Test4State < MapState
     super
     @map = TileMap["multiple_layer_multiple_tileset.tmx"]
     $window.caption = "2 layers 2 tilesets"
+    
+    @char = TestChar.create(:x=>200,:y=>200)
+    @char.tile_map=@map
+    self.input = {:holding_up=>lambda{@char.y-=5},:holding_down=>lambda{@char.y+=5},
+                  :holding_left=>lambda{@char.x-=5},:holding_right=>lambda{@char.x+=5}}    
   end
   
   def draw
@@ -119,4 +122,35 @@ class Test4State < MapState
   end
 end
 
+class TestChar < GameObject
+  traits :collision_detection, :bounding_box, :tilemap_collision
+  attr_accessor :tile_map
+  
+  def initialize options={}
+    super
+    @image = Image["16x16.png"]
+    
+  end
+end
+
 Game.new.show
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

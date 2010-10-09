@@ -26,7 +26,7 @@ class FireCube < Chingu::GameObject
     super
     @mode = :additive
     
-    @image = Image["circle.png"]
+    @image = Image["16x16.png"]
     
     # initialize with a rightwards velocity with some damping to look more realistic
     self.velocity_x = options[:velocity_x] || 1 + rand(2)

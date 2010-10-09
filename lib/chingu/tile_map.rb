@@ -33,7 +33,7 @@ module Chingu
       @map_height = @tile_height * @height
       @map_width = @tile_width * @width
       
-      @x = @y =@offset_x = @offset_y = 0
+      @x = @y = @offset_x = @offset_y = 0
       
       @map = Array.new(@width){Array.new(@height){Tile.new({})}}
       
@@ -56,11 +56,11 @@ module Chingu
     # i.e. get_tile(2,2) refers to the tile that is in the second row and
     # second column of the map. Returns false if the values passed are out of bounds
     #
-    def get_tile(row,column)
+    def get_tile(column,row)
       return false if row < 0 or column < 0
       return false if row >= @width or column >= @height
       
-      @map[row,column]
+      @map[column][row]
     end      
     
     #
