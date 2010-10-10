@@ -35,7 +35,7 @@ module Chingu
       
       @x = @y = @offset_x = @offset_y = 0
       
-      @map = Array.new(@width){Array.new(@height){Tile.new({})}}
+      initialize_map
       
       get_drawable_grid
       
@@ -155,6 +155,17 @@ module Chingu
     end  
     
     private
+    
+    def initialize_map
+      @map = Array.new(@width)
+      @width.times do |c|
+          col = Array.new(@height)
+          @height.times do |r|
+            col[r] = Tile.new(:map=>self,:position =>[c,r])
+          end
+          @map[c] = col
+      end
+    end
 
     # methods to handle the range of input on drawable map
     def min_x nv ; nv >= 0 ? @min_x =nv : @min_x = 0 end
@@ -243,6 +254,8 @@ module Chingu
 
       def initialize options
         @name = options[:name] || "t_default.png"
+        @map = options[:map]
+        @position = options[:position]
         @solid = true      
       end
       
@@ -260,6 +273,10 @@ module Chingu
       def draw(x, y)
         @tileset.get_tile(type).draw(x,y,5) if @image
         $window.font.draw(@type,x,y,100) if @@debug
+      end
+      
+      def bounds
+        Chingu::Rect.new(@position[0]*@map.tile_width,@position[1]*@map.tile_height,@map.tile_width,@map.tile_height)
       end    
     end
     

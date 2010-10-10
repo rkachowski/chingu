@@ -108,7 +108,7 @@ class Test4State < MapState
     @char = TestChar.create(:x=>200,:y=>200)
     @char.tile_map=@map
     self.input = {:holding_up=>lambda{@char.y-=1},:holding_down=>lambda{@char.y+=1},
-                  :holding_left=>lambda{@char.x-=1},:holding_right=>lambda{@char.x+=1}}    
+                  :holding_left=>lambda{@char.velocity_x-=1},:holding_right=>lambda{@char.velocity_x+=1}}    
   end
   
   def draw
