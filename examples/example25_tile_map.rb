@@ -39,6 +39,11 @@ end
 class MapState < GameState
   def initialize
     super     
+    
+    @char = TestChar.create(:x=>200,:y=>200)
+    @char.tile_map=@map
+    self.input = {:holding_up=>lambda{@char.velocity_y-=1},:holding_down=>lambda{@char.velocity_y+=1},
+                  :holding_left=>lambda{@char.velocity_x-=1},:holding_right=>lambda{@char.velocity_x+=1}} 
   end
     
 end
@@ -65,9 +70,9 @@ end
 
 class Test2State < MapState
   def initialize
-    super
     @map = TileMap["test_3_layers.tmx"]
     $window.caption = "3 tile layers"
+    super
   end
   
   def draw
@@ -83,9 +88,10 @@ end
 
 class Test3State < MapState
   def initialize
-    super
+
     @map = TileMap["test_multiple_tilesets.tmx"]
     $window.caption = "single layer, multiple tilesets"
+        super
   end
   
   def draw
@@ -101,14 +107,10 @@ end
 
 class Test4State < MapState
   def initialize
-    super
+
     @map = TileMap["multiple_layer_multiple_tileset.tmx"]
     $window.caption = "2 layers 2 tilesets"
-    
-    @char = TestChar.create(:x=>200,:y=>200)
-    @char.tile_map=@map
-    self.input = {:holding_up=>lambda{@char.y-=1},:holding_down=>lambda{@char.y+=1},
-                  :holding_left=>lambda{@char.velocity_x-=1},:holding_right=>lambda{@char.velocity_x+=1}}    
+        super
   end
   
   def draw
@@ -124,7 +126,9 @@ end
 
 class TestChar < GameObject
   traits :collision_detection, :tilemap_collision,
-         :bounding_box, :velocity
+         :bounding_box
+  has_trait :velocity, :apply=>false
+  
   
   attr_accessor :tile_map
   

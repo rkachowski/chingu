@@ -38,8 +38,14 @@ module Chingu
     end
     
     def vertical_map_collision       
-      @t_tile_col = true if collision_ver(bb.l,bb.t+self.velocity_y,bb.w)
-      @b_tile_col = true if collision_ver(bb.l,bb.b+self.velocity_y,bb.w)
+      if collision_ver(bb.l,bb.t+self.velocity_y,bb.w)
+        @t_tile_col = true 
+        @colliding_tiles[:top]=collision_ver(bb.l,bb.t+self.velocity_y,bb.w)
+      end
+      if collision_ver(bb.l,bb.b+self.velocity_y,bb.w)
+        @b_tile_col = true 
+        @colliding_tiles[:bottom]=collision_ver(bb.l,bb.b+self.velocity_y,bb.w)
+      end
     end
     
     def horizontal_map_collision
@@ -65,7 +71,9 @@ module Chingu
       
       no_of_checks.times do |i|
         if self.tile_map.get_tile(first_tile_column+i,first_tile_row)
-          return true if self.tile_map.get_tile(first_tile_column+i,first_tile_row).solid          
+          if self.tile_map.get_tile(first_tile_column+i,first_tile_row).solid          
+            return self.tile_map.get_tile(first_tile_column+i,first_tile_row)
+          end
         end
       end
             
@@ -105,21 +113,35 @@ module Chingu
           if @r_tile_col
             self.x = @colliding_tiles[:right].bounds.l - self.bb.w/2
             self.velocity_x = 0;
+          else
+            self.x += self.velocity_x            
           end
         else
           if @l_tile_col
             self.x = @colliding_tiles[:left].bounds.r + 1 + self.bb.w/2
             self.velocity_x = 0;
+          else
+            self.x += self.velocity_x
           end
         end
       end
-      
+
       if self.velocity_y < 0
-        #moving up
+        if @t_tile_col
+          self.y = @colliding_tiles[:top].bounds.b + 1+ self.bb.h/2
+          self.velocity_y =0;
+        else
+          self.y += self.velocity_y          
+        end
       else
-        #we are moving down, or stationary
+        if @b_tile_col
+          self.y = @colliding_tiles[:bottom].bounds.t - self.bb.h/2
+          self.velocity_y =0;
+        else
+          self.y += self.velocity_y
+        end
       end
-      
+
     end
   end
 end
