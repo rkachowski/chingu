@@ -107,8 +107,8 @@ class Test4State < MapState
     
     @char = TestChar.create(:x=>200,:y=>200)
     @char.tile_map=@map
-    self.input = {:holding_up=>lambda{@char.y-=5},:holding_down=>lambda{@char.y+=5},
-                  :holding_left=>lambda{@char.x-=5},:holding_right=>lambda{@char.x+=5}}    
+    self.input = {:holding_up=>lambda{@char.y-=1},:holding_down=>lambda{@char.y+=1},
+                  :holding_left=>lambda{@char.x-=1},:holding_right=>lambda{@char.x+=1}}    
   end
   
   def draw
@@ -123,14 +123,14 @@ class Test4State < MapState
 end
 
 class TestChar < GameObject
-  has_trait :bounding_box, :debug =>true
-  traits :collision_detection, :tilemap_collision
+  traits :collision_detection, :tilemap_collision,
+         :bounding_box, :velocity
+  
   attr_accessor :tile_map
   
   def initialize options={}
     super
-    @image = Image["spaceship.png"]
-    
+    @image = Image["16x16.png"]    
   end
 end
 

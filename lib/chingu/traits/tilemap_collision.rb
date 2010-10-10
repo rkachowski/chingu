@@ -5,48 +5,50 @@
 
 module Chingu
   module TilemapCollision
-    attr_reader :b_collision,:t_collision,:l_collision,:r_collision
+    attr_reader :b_tile_col,:t_tile_col,:l_tile_col,:r_tile_col
     
     module ClassMethods
       def initialize_trait(options = {})
-        trait_options[:tilemap_collision] = {:apply => true}.merge(options)
+        trait_options[:tilemap_collision] = {:response => true}.merge(options)
       end
     end
     
     def update_trait
-      reset_collision_vars
+      reset_tile_col_vars
       if self.tile_map
         vertical_map_collision
-        horizontal_map_collision 
-        puts "l = #{@l_collision} r = #{@r_collision} t = #{@t_collision} b = #{@b_collision}"
+        horizontal_map_collision
+        
+        do_response if trait_options[:tilemap_collision][:response]
+        
+        puts "l = #{@l_tile_col} r = #{@r_tile_col} t = #{@t_tile_col} b = #{@b_tile_col}"
       end
     end
       
     private
     
-    def reset_collision_vars
-      @b_collision = false
-      @t_collision = false
-      @l_collision = false      
-      @r_collision = false      
+    def reset_tile_col_vars
+      @b_tile_col = false
+      @t_tile_col = false
+      @l_tile_col = false      
+      @r_tile_col = false      
     end
     
     def vertical_map_collision       
-      @t_collision = true if collision_ver(bb.l,bb.t,bb.w)
-      @b_collision = true if collision_ver(bb.l,bb.b,bb.w)
+      @t_tile_col = true if collision_ver(bb.l,bb.t,bb.w)
+      @b_tile_col = true if collision_ver(bb.l,bb.b,bb.w)
     end
     
     def horizontal_map_collision
-      @l_collision = true if collision_hor(bb.l,bb.t,bb.h)
-      @r_collision = true if collision_hor(bb.r,bb.t,bb.h)      
+      @l_tile_col = true if collision_hor(bb.l,bb.t,bb.h)
+      @r_tile_col = true if collision_hor(bb.r,bb.t,bb.h)      
     end
 
     #
     # checking for collisions on the top and bottom sides of an aabb
     #
     def collision_ver(x,y,width)
-      no_of_checks = ( width / self.tile_map.tile_width).ceil       
-      no_of_checks +=1 if (x % self.tile_map.tile_width) != 0
+      no_of_checks = ((width + x % self.tile_map.tile_width)/ self.tile_map.tile_width).ceil
       
       first_tile_column = (x / self.tile_map.tile_width).floor
       first_tile_row = (y / self.tile_map.tile_height).floor  
@@ -64,8 +66,7 @@ module Chingu
     # checking for collisions on the left and right sides of an aabb
     #
     def collision_hor(x,y,height)
-      no_of_checks = ((height + y % self.tile_map.tile_height)/ self.tile_map.tile_height).ceil #( height / self.tile_map.tile_height).ceil       
-      #no_of_checks +=1 if (y % self.tile_map.tile_height) != 0
+      no_of_checks = ((height + y % self.tile_map.tile_height)/ self.tile_map.tile_height).ceil
       
       first_tile_row = (y / self.tile_map.tile_height).floor 
       first_tile_column = (x / self.tile_map.tile_width).floor
@@ -79,6 +80,12 @@ module Chingu
       false
     end
     
+    #
+    # collision response against solid tiles
+    #
+    def do_response
+      puts "respose"
+    end
   end
 end
   
