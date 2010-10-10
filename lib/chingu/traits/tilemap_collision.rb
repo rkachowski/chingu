@@ -1,6 +1,10 @@
 =begin
   A trait to provide a collision and response against a tilemap
-
+  
+  This trait depends upon the collision_detection and bounding_box traits (for a bounding box),
+  and the velocity trait with the option :apply=> false (collisions are calculated against the 
+  intended position of an object each frame, and as such the collision repsonse needs to control
+  and apply the velocity).
 =end
 
 module Chingu
